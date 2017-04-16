@@ -1,36 +1,4 @@
-<?php
-namespace ServerGuide;
 
-use pocketmine\Player;
-use pocketmine\Server;
-use pocketmine\event\Listener;
-use pocketmine\plugin\PluginBase;
-use pocketmine\item\Item;
-use pocketmine\utils\Config;
-use pocketmine\inventory\Inventory;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerRespawnEvent;
-use pocketmine\event\player\PlayerItemHeldEvent;
-
-/*
- * Developed by TheAz928(Az928)
- * Editing or copying isn't allowed
- * Leet.cc or play.mc cannot use this plugin
- * Twitter @TheAz928
- * Github team: Github.com/ShiningMC
- *
-  */
-
-class Main extends PluginBase implements Listener{
-	
-	public $prefix;
-	
-	public function onEnable(){
-		  $this->saveDefaultConfig();
-		  $this->cfg = $this->getConfig()->getAll();
-		  $this->prefix = $this->cfg["prefix"];
-		  $this->getServer()->getPluginManager()->registerEvents($this, $this);
-		  $this->getLogger()->info("§aServerGuide has been enabled!");
 <?php
 namespace ServerGuide;
 
