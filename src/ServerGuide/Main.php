@@ -31,6 +31,39 @@ class Main extends PluginBase implements Listener{
 		  $this->prefix = $this->cfg["prefix"];
 		  $this->getServer()->getPluginManager()->registerEvents($this, $this);
 		  $this->getLogger()->info("§aServerGuide has been enabled!");
+<?php
+namespace ServerGuide;
+
+use pocketmine\Player;
+use pocketmine\Server;
+use pocketmine\event\Listener;
+use pocketmine\plugin\PluginBase;
+use pocketmine\item\Item;
+use pocketmine\utils\Config;
+use pocketmine\inventory\Inventory;
+use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerRespawnEvent;
+use pocketmine\event\player\PlayerItemHeldEvent;
+
+/*
+ * Developed by TheAz928(Az928)
+ * Editing or copying isn't allowed
+ * Leet.cc or play.mc cannot use this plugin
+ * Twitter @TheAz928
+ * Github team: Github.com/ShiningMC
+ *
+  */
+
+class Main extends PluginBase implements Listener{
+	
+	public $prefix;
+	
+	public function onEnable(){
+		  $this->saveDefaultConfig();
+		  $this->cfg = $this->getConfig()->getAll();
+		  $this->prefix = $this->cfg["prefix"];
+		  $this->getServer()->getPluginManager()->registerEvents($this, $this);
+		  $this->getLogger()->info("§aServerGuide has been enabled!");
 		}
 		
 	/* @param getGuideItem */
@@ -68,9 +101,12 @@ class Main extends PluginBase implements Listener{
 	
 	 public function analyze(Player $player){
 	      $inv = $player->getInventory();
+	      $data = $this->cfg["guide.item"];
+	      $tmp = explode(":", $data);
 	      if($player instanceof Player){
-		    if($inv->contains($this->getGuideItem())){
-		       // do nothing for now
+		    if($inv->contains(Item::get($tmp[0], $tmp[1], 1))){
+		       $inv->removeItem(Item::get($tmp[0], $tmp[1], 64));
+		       $inv->addItem($this->getGuideItem());
 		     }else{
 		      $inv->addItem($this->getGuideItem());
 			 }
