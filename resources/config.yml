@@ -4,7 +4,7 @@ prefix: "§a§l[!]§r§9-------§b§lServerHelp§r§9-------§l§a[!]§r§r"
 
 # Help item settings
 guide.item: "403:0"
-guide.item.name: "§l§bHelp Book§r"
+guide.item.name: "§l§bHelp Book§r\n§7Tap anywhere\nto get help!§r"
 
 # Help lists
 guide.list:
