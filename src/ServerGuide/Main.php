@@ -1,4 +1,3 @@
-
 <?php
 namespace ServerGuide;
 
@@ -11,7 +10,7 @@ use pocketmine\utils\Config;
 use pocketmine\inventory\Inventory;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerRespawnEvent;
-use pocketmine\event\player\PlayerItemHeldEvent;
+use pocketmine\event\player\PlayerInteractEvent;
 
 /*
  * Developed by TheAz928(Az928)
@@ -34,23 +33,37 @@ class Main extends PluginBase implements Listener{
 		  $this->getLogger()->info("§aServerGuide has been enabled!");
 		}
 		
+	/* @param Translate vars */
+	
+	/* isn't done yet */
+	
+	public function translate(String $txt){
+		  $string = $txt;
+	     $string = str_replace("&", "§", $string);
+	     $string = str_replace("\n", "\n", $string);
+        $string = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $string);
+        $string = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $string);
+	return $string;
+	}
+		
 	/* @param getGuideItem */
 	
 	 public function getGuideItem(){
 	      $data = $this->cfg["guide.item"];
 	      $tmp = explode(":", $data);
 	      $item = Item::get($tmp[0], $tmp[1], 1);
-	      $item->setCustomName($this->cfg["guide.item.name"]);
+	      $item->setCustomName($this->translate($this->cfg["guide.item.name"]));
 	   return $item;
 		}
 		
-	 /* @param removeGuideItem */
+	 /* @param removeExtraGuideItem */
 	
-	 public function removeGuideItem(Player $player){
-	       if($player->getInventory()->contains($this->getGuideItem())){
-		      $data = $this->cfg["guide.item"];
-	         $tmp = explode(":", $data);
-		     $player->getInventory()->removeItem(Item::get($tmp[0], $tmp[1], 1));
+	 public function cleanup(Player $player){
+		   $data = $this->cfg["guide.item"];
+	       $tmp = explode(":", $data);
+	       if($player->getInventory()->contains(Item::get($tmp[0], $tmp[1], 2))){
+		      $player->getInventory()->removeItem(Item::get($tmp[0], $tmp[1], 634));
+		      $player->getInventory()->addItem($this->getGuideItem());
 		    }
 		}
 		
@@ -73,14 +86,13 @@ class Main extends PluginBase implements Listener{
 	      $tmp = explode(":", $data);
 	      if($player instanceof Player){
 		    if($inv->contains(Item::get($tmp[0], $tmp[1], 1))){
-		       $inv->removeItem(Item::get($tmp[0], $tmp[1], 64));
-		       $inv->addItem($this->getGuideItem());
+			    $this->cleanup($player);
 		     }else{
 		      $inv->addItem($this->getGuideItem());
 			 }
 	     }
 	  }
-	 public function analyzeRespawn(PlayerRespawnEvent $event){
+	 public function onRespawn(PlayerRespawnEvent $event){
 	      $player = $event->getPlayer();
 	      $this->analyze($player);
 		}
@@ -89,11 +101,12 @@ class Main extends PluginBase implements Listener{
 	      $this->analyze($player);
 	      //$player->getInventory()->setItemInHand($player->getInventory()->getItem($this->getGuideItem()));
 		}
-	 public function getGuide(PlayerItemHeldEvent $event){
+	 public function onInteract(PlayerInteractEvent $event){
 	      $player = $event->getPlayer();
 	      $eitem = $event->getItem();
 	      $data = $this->cfg["guide.item"];
 	      $tmp = explode(":", $data);
+	      $this->analyze($player);
 	      if($eitem->getId() == $tmp[0] && $eitem->getDamage() == $tmp[1] && $eitem->getCustomName() == $this->cfg["guide.item.name"]){
 		     $this->sendGuide($player);
              }
