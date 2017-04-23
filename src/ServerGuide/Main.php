@@ -10,6 +10,7 @@ use pocketmine\utils\Config;
 use pocketmine\inventory\Inventory;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerRespawnEvent;
+use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 
 /*
@@ -24,6 +25,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 class Main extends PluginBase implements Listener{
 	
 	public $prefix;
+	const WARNING = "§e§l[!]§r ";
 	
 	public function onEnable(){
 		  $this->saveDefaultConfig();
@@ -39,7 +41,6 @@ class Main extends PluginBase implements Listener{
 	
 	public function translate(String $txt){
 		  $string = $txt;
-	     $string = str_replace("&", "§", $string);
 	     $string = str_replace("\n", "\n", $string);
         $string = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $string);
         $string = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $string);
@@ -73,7 +74,8 @@ class Main extends PluginBase implements Listener{
 	      $player->sendMessage($this->cfg["prefix"]);
 	    if(isset($this->cfg["guide.list"])){
           foreach($this->cfg["guide.list"] as $help){
-	           $player->sendMessage("§r§6".$help."§r");
+	           $return = "§r§6".$help."§r";
+	           $player->sendMessage($this->translate($return));
 	      }
 	   }
 	}
@@ -111,4 +113,19 @@ class Main extends PluginBase implements Listener{
 		     $this->sendGuide($player);
              }
 		}
+	  public function onDrop(PlayerDropItemEvent $event){
+	      $player = $event->getPlayer();
+	      $item = $event->getItem();
+	      $data = $this->cfg["guide.item"];
+	      $tmp = explode(":", $data);
+	      if($item->getId() == $tmp[0] && $item->getDamage() == $tmp[1] && $item->getCustomName() == $this->cfg["guide.item.name"]){
+		     $player->sendMessage(self::WARNING."§cYou can't drop help item!");
+		     $event->setCancelled();
+		     $this->cleanup($player);
+          }
+     }
 }
+
+	
+	
+	
