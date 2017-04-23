@@ -5,3 +5,4 @@
 Gives @player a book or any item configured in config.yml on Join. When the player taps/interacts the item/book, he gets a list of helps! No need to  run /rules or /guide and stuff!
 
 Supports unlimited helplist xD ! Players can scroll also ;)
+[url=github.com/ShiningMC/ServerGuide/releases] Download [/url]
