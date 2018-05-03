@@ -1,12 +1,10 @@
 <?php
+
 namespace ServerGuide;
 
 use pocketmine\Player;
-
 use pocketmine\item\Item;
-
 use pocketmine\plugin\PluginBase;
-
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
@@ -23,10 +21,8 @@ class ServerGuide extends PluginBase implements Listener{
 	    $this->saveDefaultConfig();
 		   $this->saveResource("config.yml", true);
 		}
-	}
 	
 	# Register/Schedule needs
-
 	public function onEnable(){
 		 $this->getLogger()->info("§bServerGuide has been enabled!".PHP_EOL.
 		                                             "Author: TheAz928 (Az928)".PHP_EOL.
