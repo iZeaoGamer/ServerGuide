@@ -11,23 +11,14 @@ use pocketmine\event\player\PlayerDropItemEvent;
 
 class ServerGuide extends PluginBase implements Listener{
 	
-	private static $instance = null; # For future
-	
-	# StartUp
-	
-	public function onLoad(){
-		 self::$instance = $this;
-		 $this->getLogger()->info("§7Checking data...");
-	    $this->saveDefaultConfig();
-		   $this->saveResource("config.yml", true);
-		}
-	
 	# Register/Schedule needs
 	public function onEnable(){
 		 $this->getLogger()->info("§bServerGuide has been enabled!".PHP_EOL.
 		                                             "Author: TheAz928 (Az928)".PHP_EOL.
 		                                             "Github: Github.com/ShiningMC/ServerGuide");
 	    $this->getServer()->getPluginManager()->registerEvents($this, $this);
+	    @mkdir($this->getDataFolder());
+            $this->saveDefaultConfig();
 	    $this->getServer()->getScheduler()->scheduleRepeatingTask(new CheckTask($this), 20);
 	}
 	
