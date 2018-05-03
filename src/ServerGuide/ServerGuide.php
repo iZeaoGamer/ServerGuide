@@ -43,7 +43,7 @@ class ServerGuide extends PluginBase implements Listener{
 	 * @return Item
 	 */
 	
-	public function getHelpItem(){
+	public function getHelpItem(): Item{
 	    $steam = $this->getConfig()->get("item");
        $i = explode(":", $steam);
        $item = Item::get($i[0], $i[1], 1);
@@ -56,7 +56,7 @@ class ServerGuide extends PluginBase implements Listener{
 	 * @return array
 	 */
 	
-	public function getTranslatedLines(Player $player){
+	public function getTranslatedLines(Player $player): array{
 	    $x = $player->x;
 		 $y = $player->y;
 	    $z = $player->z;
@@ -82,6 +82,7 @@ class ServerGuide extends PluginBase implements Listener{
 		   $player->sendMessage($this->getConfig()->get("header")."§r");
 		   foreach($this->getTranslatedLines($player) as $line){
 		     $player->sendMessage($line."§r");
+		     return true;
 		   }
 		}
 	}
@@ -96,7 +97,7 @@ class ServerGuide extends PluginBase implements Listener{
 	    $key = $this->getHelpItem();
 	    if($item->getId() == $key->getId() && $item->getDamage() == $key->getDamage()){
 		   $player->sendMessage("§cYou can't do that!");
-		   $event->setCancelled();
+		   $event->setCancelled(true);
 		}
 	}
 }
