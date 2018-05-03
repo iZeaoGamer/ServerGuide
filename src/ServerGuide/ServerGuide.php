@@ -21,11 +21,7 @@ class ServerGuide extends PluginBase implements Listener{
 		 self::$instance = $this;
 		 $this->getLogger()->info("§7Checking data...");
 	    $this->saveDefaultConfig();
-	    if($this->getConfig()->get("version", 0) !== $this->getDescription()->getVersion()){
-		   rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config.old.yml");
-		   $this->getLogger()->info("§cUpdating config...");
 		   $this->saveResource("config.yml", true);
-		   $this->getConfig()->reload();
 		}
 	}
 	
