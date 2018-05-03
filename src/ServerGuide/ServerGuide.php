@@ -65,7 +65,6 @@ class ServerGuide extends PluginBase implements Listener{
 		   $player->sendMessage($this->getConfig()->get("header")."§r");
 		   foreach($this->getTranslatedLines($player) as $line){
 		     $player->sendMessage($line."§r");
-		     return true;
 		   }
 		}
 	}
