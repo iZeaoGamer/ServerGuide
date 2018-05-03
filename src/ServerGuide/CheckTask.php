@@ -11,7 +11,7 @@ class CheckTask extends PluginTask{
 	    parent::__construct($plugin);
 	}
 	
-	public function onRun($tick){
+	public function onRun(int $tick): void{
 		 $item = $this->getOwner()->getHelpItem();
 	    foreach($this->getOwner()->getServer()->getOnlinePlayers() as $player){
 	      if(!$player->getInventory()->contains($item)){
